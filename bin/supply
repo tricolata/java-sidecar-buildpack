@@ -1,0 +1,20 @@
+#!/bin/bash
+
+echo "-----> Installing config-server buildpack"
+
+BUILD_DIR=$1
+CACHE_DIR=$2
+ENV_DIR=$3
+
+echo "       \$BUILD_DIR: $BUILD_DIR"
+echo "       \$CACHE_DIR: $CACHE_DIR"
+echo "       \$ENV_DIR: $ENV_DIR"
+
+cat > $BUILD_DIR/config-server <<-SHELL
+#!/bin/bash
+
+echo "Starting dummy config-server..."
+tail -f /dev/null
+SHELL
+
+chmod +x $BUILD_DIR/config-server

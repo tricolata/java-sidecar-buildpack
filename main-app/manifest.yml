@@ -1,0 +1,9 @@
+---
+applications:
+- name: main-app
+  memory: 1G
+  instances: 1
+  buildpacks:
+  - java_buildpack
+  random-route: true
+  path: target/main-app-0.0.1-SNAPSHOT.jar
