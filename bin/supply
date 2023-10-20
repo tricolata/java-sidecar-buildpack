@@ -1,20 +1,23 @@
 #!/bin/bash
 
-echo "-----> Installing config-server buildpack"
+set -eu
 
 BUILD_DIR=$1
 CACHE_DIR=$2
-ENV_DIR=$3
+DEPS_DIR=$3
+BUILDPACK_INDEX=$4
 
-echo "       \$BUILD_DIR: $BUILD_DIR"
-echo "       \$CACHE_DIR: $CACHE_DIR"
-echo "       \$ENV_DIR: $ENV_DIR"
+echo " -----> Running java-sidecar-buildpack"
 
-cat > $BUILD_DIR/config-server <<-SHELL
-#!/bin/bash
+buildpack=$(cd "$(dirname $0)/.." && pwd)
+echo "		buildpack: $buildpack"
+cd $buildpack
 
-echo "Starting dummy config-server..."
-tail -f /dev/null
-SHELL
+echo "       BUILD_DIR: $BUILD_DIR"
+echo "       CACHE_DIR: $CACHE_DIR"
+echo "       DEPS_DIR: $DEPS_DIR"
+echo "       BUILDPACK_INDEX: $BUILDPACK_INDEX"
 
-chmod +x $BUILD_DIR/config-server
+echo "------> Downloading sidecar jar from S3"
+touch $BUILD_DIR/config-server
+curl -sSf $(cat .s3url) -o $BUILD_DIR/sidecar-app.jar
