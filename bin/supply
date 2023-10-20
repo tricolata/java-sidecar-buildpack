@@ -19,5 +19,14 @@ echo "       DEPS_DIR: $DEPS_DIR"
 echo "       BUILDPACK_INDEX: $BUILDPACK_INDEX"
 
 echo "------> Downloading sidecar jar from S3"
-touch $BUILD_DIR/config-server
+
 curl -sSf $(cat .s3url) -o $BUILD_DIR/sidecar-app.jar
+
+cat > $BUILD_DIR/config-server <<-SHELL
+#!/bin/bash
+
+echo "Starting dummy config-server..."
+tail -f /dev/null
+SHELL
+
+chmod +x $BUILD_DIR/config-server
